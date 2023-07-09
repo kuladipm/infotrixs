@@ -26,6 +26,7 @@ exports.loginUser = async (req, res, next) => {
         status: "success",
         message: "login successfully",
         data: {
+          user_id:result.user_id,
           email: result.email,
           userName: result.userName,
           mobileNo: result.mobileNo,
@@ -60,12 +61,17 @@ exports.createUser = async (req, res, next) => {
 };
 exports.updateProfile = async (req, res, next) => {
   try {
-    console.log(await res.locals.pictureId);
+    const result = await updateProfileServices(
+      req.body,
+    );
+    console.log(result.data)
+    return res.status(200).json({
+      status: "success",
+      message: "user updated successfully",
+      data: result.data,
+    });
   } catch (error) {
-    console.log(error);
-    return res
-      .status(500)
-      .json({ error: "other error", message: error.message });
+    next(error);
   }
 };
 exports.getUserDetails = async (req, res) => {};

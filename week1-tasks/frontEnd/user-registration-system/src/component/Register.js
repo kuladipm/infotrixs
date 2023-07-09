@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 import Button from "./sharedComponent/Button";
 import FormInput from "./sharedComponent/FormInput";
 import User from "../services/userServices";
 const userClass = new User();
 const Register = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const userData = location.state?.userData || null;
   const [formData, setFormData] = useState({
     userName: "",
     email: "",
@@ -70,8 +73,12 @@ const Register = () => {
         }
         navigate('/',{state:{userData}})
       } else {
-        toast.error(`${Object.values(result.errors)[0]}`, { position: toast.POSITION.BOTTOM_RIGHT });
-        console.log(result.errors)
+        const errorMessage = result.errors
+          ? Object.values(result.errors)[0]
+          : `${result.message}`;
+
+        toast.error(errorMessage, { position: toast.POSITION.BOTTOM_RIGHT });
+        console.log(result.errors);
       }
     } catch (error) {
       console.log(error);
@@ -85,7 +92,7 @@ const Register = () => {
         <label style={{ marginLeft: "0px" }}>Picture:</label>{" "}
         <input type="file" name="picture" onChange={handlePictureFieldChange} />
       </div>
-      <Button label="Login" type="submit"/>
+      <Button label="Register" type="submit"/>
     </form>
   );
 };

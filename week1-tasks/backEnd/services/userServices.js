@@ -28,57 +28,31 @@ exports.createUserServices = async (bodyData, bcryptPassword, public_id) => {
     throw Error(e);
   }
 };
-exports.loginUserByMobileNoServices = async (bodyData, bcryptPassword) => {
-  try {
-    const createUser = await db.user.create({
-      mobileNo: bodyData.mobileNo,
-      password: bcryptPassword,
-      created_by: bodyData.mobileNo,
-      updated_by: bodyData.mobileNo,
-    });
-    return {
-      success: true,
-      data: { user_id: createUser.user_id },
-      message: `Successfully Logged In!`,
-    };
-  } catch (e) {
-    throw Error(e);
-  }
-};
-exports.loginUserByEmailServices = async (bodyData, bcryptPassword) => {
-  try {
-    const createUser = await db.user.create({
-      email: bodyData.email,
-      password: bcryptPassword,
-      created_by: bodyData.email,
-      updated_by: bodyData.email,
-    });
-    return {
-      success: true,
-      data: { user_id: createUser.user_id },
-      message: `Successfully Logged In!`,
-    };
-  } catch (e) {
-    throw Error(e);
-  }
-};
 
-exports.updateProfileServices = async (bodyData, imageId) => {
+exports.updateProfileServices = async (bodyData) => {
   try {
     const updateProfileDetails = {
       userName: bodyData.userName,
       mobileNo: bodyData.mobileNo,
       email: bodyData.email,
-      picture: imageId,
+      // picture: imageId,
       address: bodyData.address,
       updated_by: bodyData.email,
     };
-    const result = User.update(updateProfileDetails, {
+    const result = await db.user.update(updateProfileDetails, {
       where: { user_id: bodyData.user_id },
     });
+    console.log(result)
     return {
       success: true,
-      data: result,
+      data: {
+        user_id: bodyData.user_id,
+        userName: bodyData.userName,
+        email: bodyData.email,
+        mobileNo: bodyData.mobileNo,
+        address: bodyData.address,
+        picture:bodyData.picture
+      },
       message: "profile updated successfully ",
     };
   } catch (error) {

@@ -39,6 +39,30 @@ class User {
       return await error;
     }
   }
+
+  
+  async updateUserServices(userData) {
+       console.log(userData.user_id);
+    try {
+      const formData = new FormData();
+      formData.append("user_id", userData.user_id);
+      formData.append("userName", userData.userName);
+      formData.append("email", userData.email);
+      formData.append("mobileNo", userData.mobileNo);
+      formData.append("address", userData.address);
+      formData.append("picture", userData.picture);
+      console.log(formData);
+      const res = await fetch(`http://localhost:5000/api/user`, {
+        method: "PATCH",
+        body: formData,
+      });
+      const result = await res.json();
+      return await result;
+    } catch (error) {
+      console.log(error);
+      return await error;
+    }
+  }
 }
 
 export default User;

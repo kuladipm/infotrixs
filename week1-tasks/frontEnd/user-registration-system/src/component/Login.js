@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 import FormInput from "./sharedComponent/FormInput";
 import Button from "./sharedComponent/Button";
 import User from "../services/userServices";
@@ -23,19 +23,27 @@ const Login = () => {
       console.log(emailOrMobile);
       const userData = { emailOrMobile: emailOrMobile, password: password };
       let result = await userClass.logInUserServices(userData);
-      if (result.status==="success") {
-        toast.success('logged In successfully!', { position: toast.POSITION.BOTTOM_RIGHT });
-        const userData={
+      if (result.status === "success") {
+        toast.success("logged In successfully!", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+        const userData = {
+          user_id: result.data.user_id,
           userName: result.data.userName,
           email: result.data.email,
           mobileNo: result.data.mobileNo,
           address: result.data.address,
-          picture:result.data.pictureId
-        }
-        navigate('/',{state:{userData}})
+          picture: result.data.pictureId,
+        };
+
+        navigate("/", { state: { userData } });
       } else {
-        toast.error(`${Object.values(result.errors)[0]}`, { position: toast.POSITION.BOTTOM_RIGHT });
-        console.log(result.errors)
+        const errorMessage = result.errors
+          ? Object.values(result.errors)[0]
+          : `${result.message}`;
+
+        toast.error(errorMessage, { position: toast.POSITION.BOTTOM_RIGHT });
+        console.log(result.errors);
       }
     } catch (error) {
       console.log(error);

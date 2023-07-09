@@ -6,6 +6,7 @@ import Login from './component/Login';
 import Register from './component/Register'
 import HomePage from './component/HomePage';
 import Navbar from './component/NavBar';
+import UpdateProfile from './component/UpdateProfile';
 import './App.css';
 
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Register" element={<Register />} />
+        <Route path="/update" element={<UpdateProfile />} />
       </Routes>
       <ToastContainer />
       </div>
