@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = ({ isLoggedIn, userProfile, onLogout }) => {
   const handleProfileClick = () => {
@@ -10,7 +10,7 @@ const Navbar = ({ isLoggedIn, userProfile, onLogout }) => {
 
   const handleLogout = () => {
     // Call the onLogout function passed as a prop
-    if (typeof onLogout === 'function') {
+    if (typeof onLogout === "function") {
       onLogout();
     }
   };
@@ -33,10 +33,21 @@ const Navbar = ({ isLoggedIn, userProfile, onLogout }) => {
               <Link to="/register" className="navbar-link">
                 Register
               </Link>
+              <div className="navbarLogo">
+              <img
+                src={require('../asset/profile-logo.avif')}
+                alt="Logo"
+                className="logo"
+                // onMouseEnter={handleLogoHover}
+              />
+            </div>
             </>
           ) : (
             <>
-              <button className="navbar-profile-button" onClick={handleProfileClick}>
+              <button
+                className="navbar-profile-button"
+                onClick={handleProfileClick}
+              >
                 {userProfile.username}
               </button>
               <button className="navbar-logout-button" onClick={handleLogout}>
